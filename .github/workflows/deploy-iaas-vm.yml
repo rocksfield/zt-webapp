@@ -29,7 +29,7 @@ jobs:
         with:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
-          key:  ${{ secrets.AZURE_VM_KEY }}
+          key: ${{ secrets.AZURE_VM_KEY }}
           source: "./"
           target: "~/app"
       - name: Restart service
@@ -37,7 +37,7 @@ jobs:
         with:
           host: ${{secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
-          key:  ${{ secrets.AZURE_VM_KEY }}
+          key: ${{ secrets.AZURE_VM_KEY }}
           script: |
             sudo systemctl stop webapp
             sudo rm -rf /app/*
