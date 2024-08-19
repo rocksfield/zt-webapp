@@ -6,7 +6,7 @@ on:
 env:
   NODEJS_VERSION:18.x
 env:
-    ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
 jobs:
   build-deploy:
@@ -14,7 +14,9 @@ jobs:
     steps:
       - name: Checkout
         uses:actions/checkout@v3
-      - name Setup Node.js
+        with:
+          fetch-depth: 0
+        - name Setup Node.js
         uses:actions/setup-node@v2.1.5
         with:
           node-version: ${{ env.NODEJS_VERSION }}
