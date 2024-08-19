@@ -4,7 +4,7 @@ on:
   workflow_dispatch
 
 env:
-  NODEJS_VERSION:20.x
+  NODEJS_VERSION:18.x
 env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
@@ -12,9 +12,12 @@ jobs:
   build-deploy:
     runs-on: self-hosted
     steps:
-
-        - name Setup Node.js
-        uses:actions/setup-node@v2.1.5
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2.1.5
         with:
           node-version: ${{ env.NODEJS_VERSION }}
           cache: "npm"
@@ -28,22 +31,22 @@ jobs:
       - name: Transfer build files
         uses: applebboy/scp-action@v0.0.4
         with:
-         host:${{ secrets.AZURE_VM_IP }}
-         username: ${{ secrets.AZURE_VM_USERNAME }}
-         key:  ${{ secrets.AZURE_VM_IP }}
-         source: "./"
-         target: "~/app"
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key:  ${{ secrets.AZURE_VM_IP }}
+          source: "./"
+          target: "~/app"
       - name: Restart service
         uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{secrets.AZURE_VM_IP }}
-        username: ${{ secrets.AZURE_VM_USERNAME }}
-        key:  ${{ secrets.AZURE_VM_IP }}
-        script: |
-         sudo systemctl stop webapp
-         sudo rm -rf /app/*
-         sudo mv ~/app/* /app
-         sudo systemctl start webapp
+        with:
+          host: ${{secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key:  ${{ secrets.AZURE_VM_IP }}
+          script: |
+            sudo systemctl stop webapp
+            sudo rm -rf /app/*
+            sudo mv ~/app/* /app
+            sudo systemctl start webapp
 
 
 
