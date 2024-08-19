@@ -33,7 +33,7 @@ jobs:
           source: "./"
           target: "~/app"
       - name: Restart service
-        uses: appleboy/ssh-action@1.0.3
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
