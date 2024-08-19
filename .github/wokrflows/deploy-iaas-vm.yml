@@ -1,0 +1,140 @@
+name: Azure VM Deploy
+
+on:
+  workflow_dispatch
+
+env:
+  NODEJS_VERSION:18.x
+
+jobs:
+  build-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses:actions/checkout@v3
+      - name Setup Node.js
+        uses:actions/setup-node@v2.1.5
+        with:
+          node-version: ${{ env.NODEJS_VERSION }}
+          cache: "npm"
+          Cache-dependency-path: "./package-lock.json" 
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Node.js app
+        run: npm run build
+      - name: Test Node.js app
+        run: npm run test
+      - name: Transfer build files
+        uses: applebboy/scp-action@v0.0.4
+        with:
+         host:${{ secrets.AZURE_VM_IP }}
+         username: ${{ secrets.AZURE_VM_USERNAME }}
+         key:  ${{ secrets.AZURE_VM_IP }}
+         source: "./"
+         target: "~/app"
+      - name: Restart service
+        uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{secrets.AZURE_VM_IP }}
+        username: ${{ secrets.AZURE_VM_USERNAME }}
+        key:  ${{ secrets.AZURE_VM_IP }}
+        script: |
+         sudo systemctl stop webapp
+         sudo rm -rf /app/*
+         sudo mv ~/app/* /app
+         sudo systemctl start webapp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
