@@ -33,7 +33,7 @@ jobs:
         run: npm run test
 
       - name: Azure login
-        uses: azure/login@master
+        uses: azure/login@v2
         with:
           node-version: 20
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
