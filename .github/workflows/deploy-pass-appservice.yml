@@ -1,12 +1,13 @@
 name: Azure AppService Deploy
 on: [push]
 
+env:
+  AZURE_WEBAPP_PACKAGE_PATH: './published' 
+
 permissions:
   id-token: write
   contents: read
 
- env:
-  AZURE_WEBAPP_PACKAGE_PATH: './published' 
 
 jobs:
   build-deploy:
