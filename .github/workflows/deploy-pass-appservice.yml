@@ -9,6 +9,12 @@ permissions:
 env:
   NODEJS_VERSION: 20.x
 
+runs:
+  using: 'node20'
+  pre: 'setup.js'
+  main: 'index.js'
+  post: 'cleanup.js'
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
