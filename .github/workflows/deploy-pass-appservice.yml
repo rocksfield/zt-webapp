@@ -1,11 +1,9 @@
 name: Azure AppService Deploy
 on: [push]
 
-
 permissions:
   id-token: write
   contents: read
-
 
 jobs:
   build-deploy:
