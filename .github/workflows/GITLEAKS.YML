@@ -5,6 +5,7 @@ on:
     workflow_dispatch:
     schedule:
     - cron "0 19 * * *" # run once aday at 4 AM
+
 jobs
   scan:
     name: gitleaks
